@@ -1,11 +1,16 @@
 ## 员工管理系统
 员工管理系统-前后端分离项目，登录验证与员工管理已经完成。
+<hr>
 使用技术：
-* SSM框架
-* Mysql
-* Redis
-* vue
-* axios
+
+* 前端
+  * vue
+  * axios
+  * html/css
+* 后端
+  * SSM框架
+  * Mysql
+  * Redis
 
 ## 前端代码下载
 [点击下载前端代码](https://disk.onji.cn/s/3ODS0 "前端页面")
