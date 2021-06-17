@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.sm.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.java.sm.entity.Employee" >
+    <id column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR" />
+    <result column="employee_address" property="employeeAddress" jdbcType="VARCHAR" />
+    <result column="employee_phone" property="employeePhone" jdbcType="VARCHAR" />
+    <result column="employee_time" property="employeeTime" jdbcType="TIMESTAMP" />
+    <result column="employee_password" property="employeePassword" jdbcType="VARCHAR" />
+    <result column="employee_salary" property="employeeSalary" jdbcType="DOUBLE" />
+    <result column="employee_avatar" property="employeeAvatar" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    employee_id, employee_name, employee_address, employee_phone, employee_time, employee_password, 
+    employee_salary, employee_avatar
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.java.sm.entity.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.java.sm.entity.EmployeeExample" >
+    delete from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.java.sm.entity.Employee" >
+    insert into employee (employee_id, employee_name, employee_address, 
+      employee_phone, employee_time, employee_password, 
+      employee_salary, employee_avatar)
+    values (#{employeeId,jdbcType=INTEGER}, #{employeeName,jdbcType=VARCHAR}, #{employeeAddress,jdbcType=VARCHAR}, 
+      #{employeePhone,jdbcType=VARCHAR}, #{employeeTime,jdbcType=TIMESTAMP}, #{employeePassword,jdbcType=VARCHAR}, 
+      #{employeeSalary,jdbcType=DOUBLE}, #{employeeAvatar,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.java.sm.entity.Employee" >
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="employeeName != null" >
+        employee_name,
+      </if>
+      <if test="employeeAddress != null" >
+        employee_address,
+      </if>
+      <if test="employeePhone != null" >
+        employee_phone,
+      </if>
+      <if test="employeeTime != null" >
+        employee_time,
+      </if>
+      <if test="employeePassword != null" >
+        employee_password,
+      </if>
+      <if test="employeeSalary != null" >
+        employee_salary,
+      </if>
+      <if test="employeeAvatar != null" >
+        employee_avatar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="employeeName != null" >
+        #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeAddress != null" >
+        #{employeeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePhone != null" >
+        #{employeePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeTime != null" >
+        #{employeeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeePassword != null" >
+        #{employeePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeSalary != null" >
+        #{employeeSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="employeeAvatar != null" >
+        #{employeeAvatar,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.java.sm.entity.EmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update employee
+    <set >
+      <if test="record.employeeId != null" >
+        employee_id = #{record.employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.employeeName != null" >
+        employee_name = #{record.employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeAddress != null" >
+        employee_address = #{record.employeeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeePhone != null" >
+        employee_phone = #{record.employeePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeTime != null" >
+        employee_time = #{record.employeeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.employeePassword != null" >
+        employee_password = #{record.employeePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeSalary != null" >
+        employee_salary = #{record.employeeSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="record.employeeAvatar != null" >
+        employee_avatar = #{record.employeeAvatar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update employee
+    set employee_id = #{record.employeeId,jdbcType=INTEGER},
+      employee_name = #{record.employeeName,jdbcType=VARCHAR},
+      employee_address = #{record.employeeAddress,jdbcType=VARCHAR},
+      employee_phone = #{record.employeePhone,jdbcType=VARCHAR},
+      employee_time = #{record.employeeTime,jdbcType=TIMESTAMP},
+      employee_password = #{record.employeePassword,jdbcType=VARCHAR},
+      employee_salary = #{record.employeeSalary,jdbcType=DOUBLE},
+      employee_avatar = #{record.employeeAvatar,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.java.sm.entity.Employee" >
+    update employee
+    <set >
+      <if test="employeeName != null" >
+        employee_name = #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeAddress != null" >
+        employee_address = #{employeeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePhone != null" >
+        employee_phone = #{employeePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeTime != null" >
+        employee_time = #{employeeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeePassword != null" >
+        employee_password = #{employeePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeSalary != null" >
+        employee_salary = #{employeeSalary,jdbcType=DOUBLE},
+      </if>
+      <if test="employeeAvatar != null" >
+        employee_avatar = #{employeeAvatar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.java.sm.entity.Employee" >
+    update employee
+    set employee_name = #{employeeName,jdbcType=VARCHAR},
+      employee_address = #{employeeAddress,jdbcType=VARCHAR},
+      employee_phone = #{employeePhone,jdbcType=VARCHAR},
+      employee_time = #{employeeTime,jdbcType=TIMESTAMP},
+      employee_password = #{employeePassword,jdbcType=VARCHAR},
+      employee_salary = #{employeeSalary,jdbcType=DOUBLE},
+      employee_avatar = #{employeeAvatar,jdbcType=VARCHAR}
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </update>
+</mapper>
