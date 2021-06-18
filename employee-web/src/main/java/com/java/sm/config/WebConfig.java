@@ -35,12 +35,12 @@ public class WebConfig implements WebMvcConfigurer {
 //    }
 
     //配置拦截器
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor())
-//                .addPathPatterns("/**") //需要拦截的请求，\**表示所有请求
-//                .excludePathPatterns("/common/**");    //表示需要排除的请求
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/**") //需要拦截的请求，\**表示所有请求
+                .excludePathPatterns("/common/**");    //表示需要排除的请求
+    }
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
