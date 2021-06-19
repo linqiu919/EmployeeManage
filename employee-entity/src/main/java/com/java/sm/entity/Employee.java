@@ -12,7 +12,7 @@ public class Employee {
     private String employeeAddress;
 
     private String employeePhone;
-    //设置时区为东八区
+    //转换时间类型，设置时区为东八区，防止时区异常导致的时间错误
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/shanghai")
     private Date employeeTime;
 

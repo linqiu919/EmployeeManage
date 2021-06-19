@@ -9,8 +9,8 @@ import lombok.Getter;
  * @ClassName AxiosStatus.java
  * @CreateTime 2021年06月14日 22:46:00
  */
-@Getter
-@AllArgsConstructor
+@Getter //lombok注解，表示生成get方法
+@AllArgsConstructor //lombok注解，表示生成全参构造函数
 public enum  AxiosStatus {
     OK(20000,"操作成功"),
     ERROR(40000,"操作失败"),

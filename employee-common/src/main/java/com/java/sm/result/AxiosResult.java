@@ -20,28 +20,31 @@ public class AxiosResult<T> {
 
     }
 
+    //成功不携带数据
     public static <T> AxiosResult<T> success(){
         return setData(AxiosStatus.OK,null);
     }
-
+    //成功携带数据
     public static <T> AxiosResult<T> success(T t){
         return setData(AxiosStatus.OK,t);
     }
 
+    //成功携带自定义状态码
     public static <T> AxiosResult<T> success(AxiosStatus axiosStatus,T t){
         return setData(axiosStatus,t);
     }
 
-
+    //失败不携带数据
     public static <T> AxiosResult<T> error(){
         return setData(AxiosStatus.ERROR,null);
     }
 
+    //失败携带数据
     public static <T> AxiosResult<T> error(T t){
         return setData(AxiosStatus.ERROR,t);
     }
 
-
+    //失败携带自定义状态码
     public static <T> AxiosResult<T> error(AxiosStatus axiosStatus,T t){
         return setData(axiosStatus,t);
     }
