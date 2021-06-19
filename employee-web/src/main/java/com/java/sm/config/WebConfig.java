@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc //配置注解驱动
 
 public class WebConfig implements WebMvcConfigurer {
-    //等价于配置文件中 <mvc:cors/> 解决跨域问题 （在filter中配置之后可以删除）
+    //;等价于配置文件中 <mvc:cors/> 解决跨域问题 （在filter中配置之后可以删除）
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/**")

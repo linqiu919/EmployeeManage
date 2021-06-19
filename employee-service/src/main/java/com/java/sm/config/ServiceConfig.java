@@ -7,6 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.xml.ws.Action;
 
@@ -34,5 +37,19 @@ public class ServiceConfig {
         return dataSourceTransactionManager;
     }
 
+    //配置跨域资源共享
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.setAllowCredentials(true);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration);
+        CorsFilter corsFilter = new CorsFilter(urlBasedCorsConfigurationSource);
+        return corsFilter;
+
+    }
 
 }

@@ -71,7 +71,7 @@ public class EmployeeController {
         return AxiosResult.success();
     }
 
-    @RequestMapping("delEmployee/{delIds}")
+    @DeleteMapping("delEmployee/{delIds}")
     public AxiosResult<Void> delEmployee(@PathVariable List<Integer> delIds){
             employeeService.deleteByIds(delIds);
         return AxiosResult.success();

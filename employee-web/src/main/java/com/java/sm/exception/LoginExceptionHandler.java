@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @DescriPtion TODO
  * @CreateTime 2021年06月14日 23:09:00
  */
-@RestControllerAdvice  //@Controller+@ResponseBody
+@RestControllerAdvice  //@ControllerAdvice + @ResponseBody
 public class LoginExceptionHandler {
+    //此注解表示运行期抛出的异常由这个类处理
     @ExceptionHandler(LoginException.class)
     public AxiosResult<Void> handlerException(LoginException e){
         return AxiosResult.error(e.getAxiosStatus(),null);

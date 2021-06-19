@@ -1,8 +1,10 @@
 import com.java.sm.config.MapperConfig;
 import com.java.sm.config.ServiceConfig;
 import com.java.sm.config.WebConfig;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
@@ -27,7 +29,16 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
     //设置dispatcherServlet的路径
     @Override
     protected String[] getServletMappings() {
+
         return new String[]{"/"};
+    }
+    //挂载过滤器
+    @Override
+    protected Filter[] getServletFilters() {
+        DelegatingFilterProxy proxy = new DelegatingFilterProxy();
+        proxy.setTargetBeanName("corsFilter");
+        Filter[] filters = new Filter[]{proxy};
+        return filters;
     }
 
     //配置multipartConfig 开启part方式上传
@@ -35,4 +46,5 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setMultipartConfig(new MultipartConfigElement(""));
     }
+
 }
