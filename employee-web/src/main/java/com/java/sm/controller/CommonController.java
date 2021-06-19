@@ -50,7 +50,7 @@ public class CommonController {
 
     @Autowired
     private EmployeeService employeeService;
-//
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -60,10 +60,10 @@ public class CommonController {
         Employee employee = employeeService.doLogin(phone);
         if(employee==null){
 //            return AxiosResult.error();
+            //通过手机号如何没用查找到用户，则抛出固定异常错误代码
             throw new LoginException(AxiosStatus.ERROR_PHONE);
         }
-
-        int code = (int)(int)(Math.random()* (999999-100000+1)+100000);
+        int code = (int)(Math.random()* (999999-100000+1)+100000);
         stringRedisTemplate.opsForValue().set(phone,code+"",2, TimeUnit.MINUTES);
         //TODO 将发送短信方法放到异步中
         SmsUtils.sendSms(phone,code+"");
@@ -78,8 +78,8 @@ public class CommonController {
         if(code.equals(getCode)){
             //登录成功，清除验证码
             stringRedisTemplate.delete(phone);
+            //设置session用于登录验证
             httpSession.setAttribute("userInfo","userInfo");
-            System.out.println(AxiosResult.success());
             return AxiosResult.success(AxiosStatus.OK);
         }else{
             throw  new LoginException(AxiosStatus.ERROR);
@@ -94,7 +94,9 @@ public class CommonController {
         InputStream inputStream = avatar.getInputStream();
         //上传文件
         UploadUtils.upload(fileName,inputStream);
+        //上传到阿里云对象存储中
         String url = "https://shangmasanshiqi.oss-cn-beijing.aliyuncs.com/"+fileName;
+        //返回状态码时同时返回文件路径
         return AxiosResult.success(url);
     }
 
@@ -144,7 +146,7 @@ public class CommonController {
            avatarCell.setCellValue(employee.getEmployeeAvatar());
         }
         //写入本地
-//        FileOutputStream fileOutputStream = new FileOutputStream("E:\\employee.xlsx");
+        //FileOutputStream fileOutputStream = new FileOutputStream("E:\\employee.xlsx");
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         workbook.write(byteStream);
         HttpHeaders httpHeaders = new HttpHeaders();

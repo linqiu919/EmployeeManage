@@ -24,7 +24,7 @@ public class AxiosResult<T> {
     public static <T> AxiosResult<T> success(){
         return setData(AxiosStatus.OK,null);
     }
-    //成功携带数据
+    //成功携带数据 第一个T表示泛型，第二个T表示返回的是T类型的数据，第三个T表示限制参数类型为T
     public static <T> AxiosResult<T> success(T t){
         return setData(AxiosStatus.OK,t);
     }
