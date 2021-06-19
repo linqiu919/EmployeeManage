@@ -43,7 +43,7 @@ public class EmployeeController {
      * @param employee
      * @return
      */
-    @PostMapping("add")
+    @RequestMapping("add")
     public AxiosResult<Void> addEmployee(@RequestBody Employee employee){
         employeeService.addEmployee(employee);
         return AxiosResult.success();
@@ -54,7 +54,7 @@ public class EmployeeController {
      * @param id
      * @return
      */
-    @GetMapping("findById/{id}")
+    @RequestMapping("findById/{id}")
     public AxiosResult<Employee> findById(@PathVariable Integer id){
         Employee employee = employeeService.findById(id);
         return AxiosResult.success(employee);
@@ -65,13 +65,13 @@ public class EmployeeController {
      * @param employee
      * @return
      */
-    @PutMapping("updateEmployee")
+    @RequestMapping("updateEmployee")
     public AxiosResult<Void> updateEmployee(@RequestBody Employee employee){
         employeeService.updateEmployee(employee);
         return AxiosResult.success();
     }
 
-    @DeleteMapping("delEmployee/{delIds}")
+    @RequestMapping("delEmployee/{delIds}")
     public AxiosResult<Void> delEmployee(@PathVariable List<Integer> delIds){
             employeeService.deleteByIds(delIds);
         return AxiosResult.success();

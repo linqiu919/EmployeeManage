@@ -34,10 +34,12 @@ public class MyFilter implements Filter{
         if(origin == null) {
             origin = req.getHeader("Referer");
         }
+
         response.setHeader("Access-Control-Allow-Origin", origin);            // 允许指定域访问跨域资源
         response.setHeader("Access-Control-Allow-Credentials", "true");   // 允许客户端携带跨域cookie，此时origin值不能为“*”，只能为指定单一域名
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cookie,token");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Cookie,token");
         filterChain.doFilter(req, response);
 
     }
