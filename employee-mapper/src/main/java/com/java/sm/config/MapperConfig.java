@@ -33,7 +33,9 @@ public class MapperConfig {
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
         configuration.setLogImpl(Log4jImpl.class);
         sqlSessionFactoryBean.setConfiguration(configuration);
+        //配置分页插件
         sqlSessionFactoryBean.setPlugins(new PageInterceptor());
+        //配置数据源
         sqlSessionFactoryBean.setDataSource(druidDataSource());
         return sqlSessionFactoryBean;
     }

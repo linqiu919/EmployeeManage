@@ -11,8 +11,12 @@ import lombok.Data;
  * @DescriPtion TODO
  * @CreateTime 2021年06月14日 23:06:00
  */
-@Data
+
 @AllArgsConstructor
 public class LoginException extends RuntimeException{
     AxiosStatus axiosStatus;
+
+    public AxiosStatus getAxiosStatus() {
+        return axiosStatus;
+    }
 }

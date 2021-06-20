@@ -5,12 +5,14 @@ import com.java.sm.exception.LoginException;
 import com.java.sm.result.AxiosResult;
 import com.java.sm.result.AxiosStatus;
 import com.java.sm.service.EmployeeService;
+import com.java.sm.util.AsyncThreadPool;
 import com.java.sm.util.SmsUtils;
 import com.java.sm.util.UploadUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +69,13 @@ public class CommonController {
         int code = (int)(Math.random()* (999999-100000+1)+100000);
         stringRedisTemplate.opsForValue().set(phone,code+"",2, TimeUnit.MINUTES);
         //TODO 将发送短信方法放到异步中
-        SmsUtils.sendSms(phone,code+"");
+        AsyncThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                SmsUtils.sendSms(phone,code+"");
+            }
+        });
+//        AsyncThreadPool.getInstance().execute(AsyncFactory.sendSms(phone,code+""));
         return AxiosResult.success();
     }
 
@@ -97,6 +106,7 @@ public class CommonController {
         //上传到阿里云对象存储中
         String url = "https://shangmasanshiqi.oss-cn-beijing.aliyuncs.com/"+fileName;
         //返回状态码时同时返回文件路径
+        System.out.println(AxiosResult.success(url));
         return AxiosResult.success(url);
     }
 
@@ -156,6 +166,58 @@ public class CommonController {
         byteStream.close();
         workbook.close();
         return responseEntity;
+    }
+
+    /**
+     * 导入表格数据
+     */
+    @PostMapping("importExcel")
+    public AxiosResult<Void> importExcel(@RequestPart Part excel) throws IOException, ParseException {
+        //把上传的文件变成一个workbook
+        XSSFWorkbook workbook = new XSSFWorkbook(excel.getInputStream());
+        //获取第一页
+        XSSFSheet sheetAt = workbook.getSheetAt(0);
+        //获取最后一行的索引
+        int lastRowNum = sheetAt.getLastRowNum();
+        for (int i = 1; i <= lastRowNum; i++) {
+            Row row = sheetAt.getRow(i);
+            //获取单元格并给对象赋值
+            Employee employee = new Employee();
+            Cell idCell = row.getCell(0);
+            double id = idCell.getNumericCellValue();
+            employee.setEmployeeId((int)id);
+
+            Cell nameCell = row.getCell(1);
+            String name = nameCell.getStringCellValue();
+            employee.setEmployeeName(name);
+
+            Cell addressCell = row.getCell(2);
+            String address = addressCell.getStringCellValue();
+            employee.setEmployeeAddress(address);
+
+            Cell phoneCell = row.getCell(3);
+            String phone = phoneCell.getStringCellValue();
+            employee.setEmployeePhone(phone);
+
+            Cell timeCell = row.getCell(4);
+            String time = timeCell.getStringCellValue();
+            employee.setEmployeeTime(sdf.parse(time));
+
+            Cell salaryCell = row.getCell(5);
+            double salary  = salaryCell.getNumericCellValue();
+            employee.setEmployeeSalary(salary);
+
+            Cell avatarCell = row.getCell(6);
+            String avatar = avatarCell.getStringCellValue();
+            employee.setEmployeeAvatar(avatar);
+
+            employeeService.addEmployee(employee);
+        }
+
+        //每一个单元格都是这个对象中的属性值
+        //释放资源
+
+        return AxiosResult.success();
     }
 
 

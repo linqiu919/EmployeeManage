@@ -28,7 +28,7 @@ public class ServiceConfig {
     @Autowired
     private DruidDataSource druidDataSource;
 
-    //配置事物管理器
+    //配置事务管理器
     @Bean
     public DataSourceTransactionManager transactionManager(){
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();

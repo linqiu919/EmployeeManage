@@ -32,7 +32,7 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
 
         return new String[]{"/"};
     }
-    //挂载过滤器
+    //添加过滤器
     @Override
     protected Filter[] getServletFilters() {
         DelegatingFilterProxy proxy = new DelegatingFilterProxy();

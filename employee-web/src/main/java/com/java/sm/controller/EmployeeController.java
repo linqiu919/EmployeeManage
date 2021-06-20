@@ -29,7 +29,6 @@ public class EmployeeController {
      * 分页查询
      * @param currentPage
      * @param pageSize
-     * @return
      */
     @GetMapping("findAll")
     public AxiosResult<PageBean<Employee>> findAll(int currentPage,int pageSize){
@@ -41,7 +40,6 @@ public class EmployeeController {
     /**
      * 添加员工
      * @param employee
-     * @return
      */
     @RequestMapping("add")
     public AxiosResult<Void> addEmployee(@RequestBody Employee employee){
@@ -52,7 +50,6 @@ public class EmployeeController {
     /**
      * 通过ID查询员工
      * @param id
-     * @return
      */
     @RequestMapping("findById/{id}")
     public AxiosResult<Employee> findById(@PathVariable Integer id){
@@ -63,7 +60,6 @@ public class EmployeeController {
     /**
      * 更新员工信息
      * @param employee
-     * @return
      */
     @RequestMapping("updateEmployee")
     public AxiosResult<Void> updateEmployee(@RequestBody Employee employee){
@@ -71,6 +67,10 @@ public class EmployeeController {
         return AxiosResult.success();
     }
 
+    /**
+     * 删除员工
+     * @param delIds
+     */
     @DeleteMapping("delEmployee/{delIds}")
     public AxiosResult<Void> delEmployee(@PathVariable List<Integer> delIds){
             employeeService.deleteByIds(delIds);
